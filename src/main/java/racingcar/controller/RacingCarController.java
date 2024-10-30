@@ -31,22 +31,31 @@ public class RacingCarController {
     }
 
     public void process() {
-        String inputNames = readNames(outputView, inputView);
-        Cars cars = initializeCars(splitter, inputNames, movingStrategy);
-        Round round = readRound(outputView, inputView);
+        Cars cars = generateCars();
+        Round round = generateRound();
 
         RacingCar racingCar = new RacingCar(cars, round);
-        showRacingResult(outputView, round, racingCar, stringRepeater);
+        executeRacing(racingCar);
+        showRacingResult(round, racingCar);
         showWinners(racingCar);
     }
 
-    private String readNames(OutputView outputView, InputView inputView) {
+    private Cars generateCars() {
+        String inputNames = readNames();
+        return initializeCars(inputNames);
+    }
+
+    private Round generateRound() {
+        String inputRound = readRound();
+        return new Round(inputRound);
+    }
+
+    private String readNames() {
         outputView.showCommentForCarNames();
         return inputView.read();
     }
 
-    private Cars initializeCars(final Splitter splitter, final String inputNames,
-                                final MovingStrategy movingStrategy) {
+    private Cars initializeCars(final String inputNames) {
         Cars cars = new Cars(new ArrayList<>());
         for (String name : splitter.splitFrom(inputNames)) {
             cars.add(new Car(name, movingStrategy));
@@ -54,21 +63,22 @@ public class RacingCarController {
         return cars;
     }
 
-    private Round readRound(OutputView outputView, InputView inputView) {
+    private String readRound() {
         outputView.showCommentForRound();
-        String inputRound = inputView.read();
-        return new Round(inputRound);
+        return inputView.read();
     }
 
-    private void showRacingResult(OutputView outputView, final Round round, final RacingCar racingCar,
-                                  final StringRepeater stringRepeater) {
+    private void showRacingResult(final Round round, final RacingCar racingCar) {
         outputView.showCommentForResult();
-        racingCar.start();
         Cars cars = racingCar.cars();
         History history = racingCar.history();
         for (int currentRound = 0; currentRound < round.round(); currentRound++) {
             outputView.showCarPosition(cars.names(), history.at(currentRound), stringRepeater);
         }
+    }
+
+    private void executeRacing(final RacingCar racingCar) {
+        racingCar.start();
     }
 
     private void showWinners(final RacingCar racingCar) {

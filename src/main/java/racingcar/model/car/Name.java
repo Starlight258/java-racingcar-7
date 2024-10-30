@@ -15,9 +15,17 @@ public class Name {
     }
 
     private void validate(final String value) {
+        validateInput(value);
+        validateLength(value);
+    }
+
+    private void validateInput(final String value) {
         if (value == null || value.isBlank()) {
             throw new InvalidNameException("이름은 null이거나 공백일 수 없습니다.");
         }
+    }
+
+    private void validateLength(final String value) {
         if (value.length() > MAX_LENGTH) {
             throw new InvalidNameException("이름은 5글자 이하여야 합니다.");
         }

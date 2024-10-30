@@ -25,7 +25,7 @@ public class Cars {
                 .toList();
     }
 
-    private void validateDuplicateNames(final List<Car> cars){
+    private void validateDuplicateNames(final List<Car> cars) {
         long uniqueNameCount = cars.stream()
                 .map(Car::name)
                 .distinct()
@@ -47,9 +47,10 @@ public class Cars {
                 .anyMatch(car -> car.name().equals(name));
     }
 
-    public List<Name> names() {
+    public List<String> names() {
         return cars.stream()
                 .map(Car::name)
+                .map(Name::name)
                 .toList();
     }
 

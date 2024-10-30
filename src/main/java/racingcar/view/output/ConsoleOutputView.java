@@ -2,8 +2,6 @@ package racingcar.view.output;
 
 import java.util.List;
 import java.util.stream.IntStream;
-import racingcar.model.car.Name;
-import racingcar.model.game.position.Positions;
 import racingcar.support.repeater.StringRepeater;
 
 public class ConsoleOutputView implements OutputView {
@@ -26,21 +24,21 @@ public class ConsoleOutputView implements OutputView {
     }
 
     @Override
-    public void showCarPosition(final List<Name> names, final List<Long> positions,
+    public void showCarPosition(final List<String> names, final List<Long> positions,
                                 final StringRepeater stringRepeater) {
         formatPositions(names, positions, stringRepeater).forEach(System.out::println);
         System.out.println();
     }
 
-    private List<String> formatPositions(final List<Name> names, final List<Long> positions,
+    private List<String> formatPositions(final List<String> names, final List<Long> positions,
                                          final StringRepeater stringRepeater) {
         return IntStream.range(0, names.size())
                 .mapToObj(index -> formatPosition(names.get(index), stringRepeater, positions.get(index)))
                 .toList();
     }
 
-    private String formatPosition(final Name name, final StringRepeater stringRepeater, final long position) {
-        return name.name() + COLON + stringRepeater.repeat(position);
+    private String formatPosition(final String name, final StringRepeater stringRepeater, final long position) {
+        return name + COLON + stringRepeater.repeat(position);
     }
 
     @Override

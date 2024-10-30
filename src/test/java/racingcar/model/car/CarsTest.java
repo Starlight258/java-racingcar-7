@@ -96,10 +96,10 @@ class CarsTest {
         Cars cars = new Cars(List.of(new Car("mint", () -> true), new Car("dobby", () -> true)));
 
         // When
-        List<Name> names = cars.names();
+        List<String> names = cars.names();
 
         // Then
-        assertThat(names).isEqualTo(List.of(new Name("mint"), new Name("dobby")));
+        assertThat(names).isEqualTo(List.of("mint", "dobby"));
     }
 
     @Test

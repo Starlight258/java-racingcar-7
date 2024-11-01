@@ -4,6 +4,7 @@ import java.util.List;
 import racingcar.support.repeater.StringRepeater;
 
 public interface OutputView {
+
     void showCommentForCarNames();
 
     void showCommentForRound();

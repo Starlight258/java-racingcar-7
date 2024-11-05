@@ -24,7 +24,7 @@ public class RacingCar {
     }
 
     public void start() {
-        for (int currentRound = 0; currentRound < round.round(); currentRound++) {
+        for (int currentRound = 0; currentRound < round.getRound(); currentRound++) {
             List<Boolean> moves = cars.doMove();
             moveWithPositions(moves);
         }
@@ -34,8 +34,8 @@ public class RacingCar {
         return positions.findWinnersIndices()
                 .stream()
                 .map(cars::at)
-                .map(Car::name)
-                .map(Name::name)
+                .map(Car::getName)
+                .map(Name::getName)
                 .collect(Collectors.joining(", "));
     }
 
@@ -48,11 +48,11 @@ public class RacingCar {
         history.add(positions);
     }
 
-    public Cars cars() {
+    public Cars getCars() {
         return cars;
     }
 
-    public History history() {
+    public History getHistory() {
         return history;
     }
 }

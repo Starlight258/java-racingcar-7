@@ -4,6 +4,7 @@ import racingcar.exception.splitter.InvalidDelimiterException;
 
 public class Splitter {
 
+    public static final int INCLUDE_EMPTY_TRAILING = -1;
     private final String delimiter;
 
     public Splitter(final String delimiter) {
@@ -18,6 +19,6 @@ public class Splitter {
     }
 
     public String[] splitFrom(final String inputNames) {
-        return inputNames.split(delimiter, -1);
+        return inputNames.split(delimiter, INCLUDE_EMPTY_TRAILING);
     }
 }

@@ -13,11 +13,11 @@ public class Car {
         this.movingStrategy = movingStrategy;
     }
 
-    public boolean doesMove() {
+    public boolean canMove() {
         return movingStrategy.canMove();
     }
 
-    public Name name() {
+    public Name getName() {
         return name;
     }
 

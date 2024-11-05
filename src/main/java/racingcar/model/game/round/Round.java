@@ -30,7 +30,7 @@ public class Round {
         }
     }
 
-    public long round() {
+    public long getRound() {
         return round;
     }
 

@@ -1,13 +1,16 @@
 package racingcar.controller;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.IntStream;
+import racingcar.dto.CarPositionDto;
 import racingcar.model.car.Car;
 import racingcar.model.car.Cars;
 import racingcar.model.game.RacingCar;
 import racingcar.model.game.position.History;
 import racingcar.model.game.round.Round;
 import racingcar.model.game.strategy.MovingStrategy;
-import racingcar.support.repeater.StringRepeater;
+import racingcar.support.formatter.Formatter;
 import racingcar.support.splitter.Splitter;
 import racingcar.view.input.InputView;
 import racingcar.view.output.OutputView;
@@ -18,16 +21,16 @@ public class RacingCarController {
     private final OutputView outputView;
     private final Splitter splitter;
     private final MovingStrategy movingStrategy;
-    private final StringRepeater stringRepeater;
+    private final Formatter formatter;
 
     public RacingCarController(final InputView inputView, final OutputView outputView, final Splitter splitter,
                                final MovingStrategy movingStrategy,
-                               final StringRepeater stringRepeater) {
+                               final Formatter formatter) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.splitter = splitter;
         this.movingStrategy = movingStrategy;
-        this.stringRepeater = stringRepeater;
+        this.formatter = formatter;
     }
 
     public void process() {
@@ -70,10 +73,16 @@ public class RacingCarController {
 
     private void showRacingResult(final Round round, final RacingCar racingCar) {
         outputView.showCommentForResult();
-        Cars cars = racingCar.cars();
-        History history = racingCar.history();
-        for (int currentRound = 0; currentRound < round.round(); currentRound++) {
-            outputView.showCarPosition(cars.names(), history.at(currentRound), stringRepeater);
+        Cars cars = racingCar.getCars();
+        History history = racingCar.getHistory();
+        for (int currentRound = 0; currentRound < round.getRound(); currentRound++) {
+            int finalCurrentRound = currentRound;
+            List<CarPositionDto> carPositions = IntStream.range(0, cars.names().size())
+                    .mapToObj(i -> new CarPositionDto(
+                            cars.names().get(i),
+                            history.at(finalCurrentRound).get(i)))
+                    .toList();
+            outputView.showCarPosition(carPositions, formatter);
         }
     }
 

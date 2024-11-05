@@ -21,13 +21,13 @@ public class Cars {
 
     public List<Boolean> doMove() {
         return cars.stream()
-                .map(Car::doesMove)
+                .map(Car::canMove)
                 .toList();
     }
 
     private void validateDuplicateNames(final List<Car> cars) {
         long uniqueNameCount = cars.stream()
-                .map(Car::name)
+                .map(Car::getName)
                 .distinct()
                 .count();
 
@@ -37,20 +37,20 @@ public class Cars {
     }
 
     private void validateDuplicateName(Car car) {
-        if (isDuplicated(car.name())) {
+        if (isDuplicated(car.getName())) {
             throw new InvalidNameException("이름은 중복될 수 없습니다.");
         }
     }
 
     private boolean isDuplicated(Name name) {
         return cars.stream()
-                .anyMatch(car -> car.name().equals(name));
+                .anyMatch(car -> car.getName().equals(name));
     }
 
     public List<String> names() {
         return cars.stream()
-                .map(Car::name)
-                .map(Name::name)
+                .map(Car::getName)
+                .map(Name::getName)
                 .toList();
     }
 

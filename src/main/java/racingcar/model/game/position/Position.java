@@ -18,7 +18,7 @@ public class Position {
         return this.position == value;
     }
 
-    public long position() {
+    public long getPosition() {
         return position;
     }
 

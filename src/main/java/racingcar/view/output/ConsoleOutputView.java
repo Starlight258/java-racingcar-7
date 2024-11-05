@@ -1,12 +1,10 @@
 package racingcar.view.output;
 
 import java.util.List;
-import java.util.stream.IntStream;
-import racingcar.support.repeater.StringRepeater;
+import racingcar.dto.CarPositionDto;
+import racingcar.support.formatter.Formatter;
 
 public class ConsoleOutputView implements OutputView {
-
-    public static final String COLON = " : ";
 
     @Override
     public void showCommentForCarNames() {
@@ -24,21 +22,11 @@ public class ConsoleOutputView implements OutputView {
     }
 
     @Override
-    public void showCarPosition(final List<String> names, final List<Long> positions,
-                                final StringRepeater stringRepeater) {
-        formatPositions(names, positions, stringRepeater).forEach(System.out::println);
+    public void showCarPosition(final List<CarPositionDto> carPositionDtos, final Formatter formatter) {
+        carPositionDtos.stream()
+                .map(formatter::formatPosition)
+                .forEach(System.out::println);
         System.out.println();
-    }
-
-    private List<String> formatPositions(final List<String> names, final List<Long> positions,
-                                         final StringRepeater stringRepeater) {
-        return IntStream.range(0, names.size())
-                .mapToObj(index -> formatPosition(names.get(index), stringRepeater, positions.get(index)))
-                .toList();
-    }
-
-    private String formatPosition(final String name, final StringRepeater stringRepeater, final long position) {
-        return name + COLON + stringRepeater.repeat(position);
     }
 
     @Override

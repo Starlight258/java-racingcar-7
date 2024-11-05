@@ -15,6 +15,6 @@ class CarTest {
         Car car = new Car("pobi", () -> true);
 
         // When & Then
-        assertThat(car.doesMove()).isTrue();
+        assertThat(car.canMove()).isTrue();
     }
 }

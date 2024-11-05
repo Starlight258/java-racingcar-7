@@ -1,7 +1,8 @@
 package racingcar.view.output;
 
 import java.util.List;
-import racingcar.support.repeater.StringRepeater;
+import racingcar.dto.CarPositionDto;
+import racingcar.support.formatter.Formatter;
 
 public interface OutputView {
 
@@ -11,7 +12,7 @@ public interface OutputView {
 
     void showCommentForResult();
 
-    void showCarPosition(List<String> names, List<Long> positions, StringRepeater stringRepeater);
+    void showCarPosition(List<CarPositionDto> carPositionDtos, Formatter formatter);
 
     void showWinners(String winners);
 }

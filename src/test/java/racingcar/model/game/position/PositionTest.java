@@ -40,7 +40,7 @@ class PositionTest {
             position.increase();
 
             // Then
-            assertThat(position.position()).isEqualTo(1);
+            assertThat(position.getPosition()).isEqualTo(1);
         }
     }
 

@@ -6,6 +6,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.ValueSource;
 import racingcar.exception.car.InvalidNameException;
 
 @DisplayName("이름 테스트")
@@ -40,37 +43,12 @@ class NameTest {
                     .hasMessage("이름은 5글자 이하여야 합니다.");
         }
 
-        @Test
+        @ParameterizedTest
+        @NullAndEmptySource
+        @ValueSource(strings = " ")
         @DisplayName("빈 문자열이면 예외가 발생한다")
-        void 실패_이름생성_빈문자열() {
+        void 실패_이름생성_빈값(String name) {
             // Given
-            String name = "";
-
-            // When & Then
-            assertThatThrownBy(() -> new Name(name))
-                    .isExactlyInstanceOf(InvalidNameException.class)
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("이름은 null이거나 공백일 수 없습니다.");
-        }
-
-        @Test
-        @DisplayName("공백이면 예외가 발생한다")
-        void 실패_이름생성_공백() {
-            // Given
-            String name = " ";
-
-            // When & Then
-            assertThatThrownBy(() -> new Name(name))
-                    .isExactlyInstanceOf(InvalidNameException.class)
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("이름은 null이거나 공백일 수 없습니다.");
-        }
-
-        @Test
-        @DisplayName("null이면 예외가 발생한다")
-        void 실패_이름생성_null() {
-            // Given
-            String name = null;
 
             // When & Then
             assertThatThrownBy(() -> new Name(name))

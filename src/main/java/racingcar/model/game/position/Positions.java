@@ -36,7 +36,7 @@ public class Positions {
 
     private long findMaxPosition() {
         return positions.stream()
-                .mapToLong(Position::position)
+                .mapToLong(Position::getPosition)
                 .max()
                 .orElseThrow(() -> new IllegalStateException("참여자가 없습니다."));
     }
@@ -47,7 +47,7 @@ public class Positions {
 
     public List<Long> values() {
         return positions.stream()
-                .mapToLong(Position::position)
+                .mapToLong(Position::getPosition)
                 .boxed()
                 .toList();
     }

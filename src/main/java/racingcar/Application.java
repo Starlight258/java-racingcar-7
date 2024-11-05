@@ -6,6 +6,7 @@ import racingcar.model.game.strategy.MovingStrategy;
 import racingcar.model.game.strategy.RacingCarMovingStrategy;
 import racingcar.support.comparable.IntegerComparable;
 import racingcar.support.comparable.NumberComparable;
+import racingcar.support.formatter.Formatter;
 import racingcar.support.random.RandomIntegerGenerator;
 import racingcar.support.random.RandomNumberGenerator;
 import racingcar.support.repeater.StringRepeater;
@@ -40,8 +41,9 @@ public class Application {
         MovingStrategy movingStrategy = new RacingCarMovingStrategy(randomNumberGenerator, numberComparable,
                 FORWARD_MIN_INCLUSIVE);
         StringRepeater stringRepeater = new StringRepeater(HYPHEN);
+        Formatter formatter = new Formatter(stringRepeater);
 
         return new RacingCarController(inputView, outputView, splitter, movingStrategy,
-                stringRepeater);
+                formatter);
     }
 }

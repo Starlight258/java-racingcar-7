@@ -3,6 +3,7 @@ package racingcar.model.car;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 import racingcar.exception.car.InvalidNameException;
 
 public class Cars {
@@ -19,12 +20,6 @@ public class Cars {
         cars.add(car);
     }
 
-    public List<Boolean> doMove() {
-        return cars.stream()
-                .map(Car::canMove)
-                .toList();
-    }
-
     private void validateDuplicateNames(final List<Car> cars) {
         long uniqueNameCount = cars.stream()
                 .map(Car::getName)
@@ -37,14 +32,11 @@ public class Cars {
     }
 
     private void validateDuplicateName(Car car) {
-        if (isDuplicated(car.getName())) {
-            throw new InvalidNameException("이름은 중복될 수 없습니다.");
-        }
-    }
-
-    private boolean isDuplicated(Name name) {
-        return cars.stream()
-                .anyMatch(car -> car.getName().equals(name));
+        List<Car> allCars = Stream.concat(
+                Stream.of(car),
+                cars.stream()
+        ).toList();
+        validateDuplicateNames(allCars);
     }
 
     public List<String> names() {

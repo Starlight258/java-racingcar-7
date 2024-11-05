@@ -22,7 +22,7 @@ class CarsTest {
         @DisplayName("자동차 집합을 생성한다")
         void 성공_생성() {
             // Given
-            List<Car> cars = List.of(new Car("mint", () -> true), new Car("dobby", () -> true));
+            List<Car> cars = List.of(new Car("mint"), new Car("dobby"));
 
             // When & Then
             assertThatCode(() -> new Cars(cars))
@@ -33,7 +33,7 @@ class CarsTest {
         @DisplayName("자동차 집합에서 이름이 중복되면 예외가 발생한다")
         void 실패_생성_이름중복() {
             // Given
-            List<Car> duplicatedNamesCars = List.of(new Car("mint", () -> true), new Car("mint", () -> true));
+            List<Car> duplicatedNamesCars = List.of(new Car("mint"), new Car("mint"));
 
             // When & Then
             assertThatThrownBy(() -> new Cars(duplicatedNamesCars))
@@ -52,7 +52,7 @@ class CarsTest {
         void 성공_추가() {
             // Given
             Cars cars = new Cars(Collections.emptyList());
-            Car car = new Car("mint", () -> true);
+            Car car = new Car("mint");
 
             // When
             cars.add(car);
@@ -66,10 +66,10 @@ class CarsTest {
         @DisplayName("자동차를 추가할 때 이름이 중복되면 예외가 발생한다")
         void 실패_추가_이름중복() {
             // Given
-            Cars cars = new Cars(List.of(new Car("mint", () -> true)));
+            Cars cars = new Cars(List.of(new Car("mint")));
 
             // When & Then
-            assertThatThrownBy(() -> cars.add(new Car("mint", () -> true)))
+            assertThatThrownBy(() -> cars.add(new Car("mint")))
                     .isExactlyInstanceOf(InvalidNameException.class)
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("이름은 중복될 수 없습니다.");
@@ -77,23 +77,10 @@ class CarsTest {
     }
 
     @Test
-    @DisplayName("자동차 집합의 이동여부를 얻는다")
-    void 성공_이동여부조회() {
-        // Given
-        Cars cars = new Cars(List.of(new Car("mint", () -> true)));
-
-        // When
-        List<Boolean> moves = cars.doMove();
-
-        // Then
-        assertThat(moves).isEqualTo(List.of(true));
-    }
-
-    @Test
     @DisplayName("자동차 집합의 이름 집합을 얻는다")
     void 성공_이름집합조회() {
         // Given
-        Cars cars = new Cars(List.of(new Car("mint", () -> true), new Car("dobby", () -> true)));
+        Cars cars = new Cars(List.of(new Car("mint"), new Car("dobby")));
 
         // When
         List<String> names = cars.names();
@@ -106,7 +93,7 @@ class CarsTest {
     @DisplayName("자동차 집합의 크기를 얻는다")
     void 성공_집합크기조회() {
         // Given
-        Cars cars = new Cars(List.of(new Car("mint", () -> true)));
+        Cars cars = new Cars(List.of(new Car("mint")));
 
         // When
         int size = cars.size();
@@ -119,7 +106,7 @@ class CarsTest {
     @DisplayName("인덱스에 위치한 자동차를 조회한다")
     void 성공_자동차조회() {
         // Given
-        Car car = new Car("mint", () -> true);
+        Car car = new Car("mint");
         Cars cars = new Cars(List.of(car));
 
         // When

@@ -1,6 +1,7 @@
 package racingcar.model.game;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -26,9 +27,9 @@ class RacingCarTest {
         void 성공_시작_시도횟수0() {
             // Given
             MovingStrategy movingStrategy = () -> true;
-            Cars cars = new Cars(List.of(new Car("pobi", movingStrategy), new Car("woni", movingStrategy)));
+            Cars cars = new Cars(List.of(new Car("pobi"), new Car("woni")));
             Round round = new Round("0");
-            RacingCar racingCar = new RacingCar(cars, round);
+            RacingCar racingCar = new RacingCar(cars, round, movingStrategy);
 
             // When
             racingCar.start();
@@ -42,21 +43,24 @@ class RacingCarTest {
         @DisplayName("시도횟수가 1 이상이면 경주를 수행한다")
         void 성공_시작_시도횟수1이상() {
             // Given
-            Cars cars = new Cars(List.of(new Car("pobi", () -> true), new Car("woni", () -> false)));
+            Cars cars = new Cars(List.of(new Car("pobi"), new Car("woni")));
             Round round = new Round("1");
-            RacingCar racingCar = new RacingCar(cars, round);
+            RacingCar racingCar = new RacingCar(cars, round, () -> true);
 
             // When
             racingCar.start();
 
             // Then
-            Positions expectedPositions = new Positions(List.of(new Position(1), new Position(0)));
+            Positions expectedPositions = new Positions(List.of(new Position(1), new Position(1)));
             History expectedHistory = new History();
             expectedHistory.add(expectedPositions);
-            assertThat(racingCar).extracting("positions")
-                    .isEqualTo(expectedPositions);
-            assertThat(racingCar).extracting("history")
-                    .isEqualTo(expectedHistory);
+
+            assertAll(
+                    () -> assertThat(racingCar).extracting("positions")
+                            .isEqualTo(expectedPositions),
+                    () -> assertThat(racingCar).extracting("history")
+                            .isEqualTo(expectedHistory)
+            );
         }
     }
 
@@ -65,28 +69,12 @@ class RacingCarTest {
     class 우승자_계산_테스트 {
 
         @Test
-        @DisplayName("우승자가 한 명이면 한 명만 출력한다")
-        void 성공_우승자계산_우승자한명() {
-            // Given
-            Cars cars = new Cars(List.of(new Car("pobi", () -> true), new Car("woni", () -> false)));
-            Round round = new Round("1");
-            RacingCar racingCar = new RacingCar(cars, round);
-            racingCar.start();
-
-            // When
-            String winners = racingCar.calculateWinners();
-
-            // Then
-            assertThat(winners).isEqualTo("pobi");
-        }
-
-        @Test
-        @DisplayName("우승자가 여러 명이면 모두 출력한다")
+        @DisplayName("우승자를 모두 출력한다")
         void 성공_우승자계산_우승자여러명() {
             // Given
-            Cars cars = new Cars(List.of(new Car("pobi", () -> true), new Car("woni", () -> true)));
+            Cars cars = new Cars(List.of(new Car("pobi"), new Car("woni")));
             Round round = new Round("1");
-            RacingCar racingCar = new RacingCar(cars, round);
+            RacingCar racingCar = new RacingCar(cars, round, () -> true);
             racingCar.start();
 
             // When

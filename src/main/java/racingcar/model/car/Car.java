@@ -1,20 +1,13 @@
 package racingcar.model.car;
 
 import java.util.Objects;
-import racingcar.model.game.strategy.MovingStrategy;
 
 public class Car {
 
     private final Name name;
-    private final MovingStrategy movingStrategy;
 
-    public Car(final String name, final MovingStrategy movingStrategy) {
+    public Car(final String name) {
         this.name = new Name(name);
-        this.movingStrategy = movingStrategy;
-    }
-
-    public boolean canMove() {
-        return movingStrategy.canMove();
     }
 
     public Name getName() {
@@ -29,12 +22,12 @@ public class Car {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Car other = (Car) o;
-        return Objects.equals(name, other.name) && Objects.equals(movingStrategy, other.movingStrategy);
+        Car car = (Car) o;
+        return Objects.equals(name, car.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, movingStrategy);
+        return Objects.hash(name);
     }
 }

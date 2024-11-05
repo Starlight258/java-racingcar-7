@@ -1,20 +1,8 @@
 package racingcar;
 
 import camp.nextstep.edu.missionutils.Console;
+import racingcar.config.RacingCarConfig;
 import racingcar.controller.RacingCarController;
-import racingcar.model.game.strategy.MovingStrategy;
-import racingcar.model.game.strategy.RacingCarMovingStrategy;
-import racingcar.support.comparable.IntegerComparable;
-import racingcar.support.comparable.NumberComparable;
-import racingcar.support.formatter.Formatter;
-import racingcar.support.random.RandomIntegerGenerator;
-import racingcar.support.random.RandomNumberGenerator;
-import racingcar.support.repeater.StringRepeater;
-import racingcar.support.splitter.Splitter;
-import racingcar.view.input.ConsoleInputView;
-import racingcar.view.input.InputView;
-import racingcar.view.output.ConsoleOutputView;
-import racingcar.view.output.OutputView;
 
 public class Application {
 
@@ -25,25 +13,10 @@ public class Application {
     private static final String HYPHEN = "-";
 
     public static void main(String[] args) {
-        RacingCarController controller = createRacingCarController();
+        RacingCarConfig config = new RacingCarConfig(DELIMITER, RANDOM_NUMBER_START_INCLUSIVE,
+                RANDOM_NUMBER_END_INCLUSIVE, FORWARD_MIN_INCLUSIVE, HYPHEN);
+        RacingCarController controller = config.createController();
         controller.process();
         Console.close();
-    }
-
-    private static RacingCarController createRacingCarController() {
-        InputView inputView = new ConsoleInputView();
-        OutputView outputView = new ConsoleOutputView();
-        Splitter splitter = new Splitter(DELIMITER);
-        RandomNumberGenerator randomNumberGenerator = new RandomIntegerGenerator(
-                RANDOM_NUMBER_START_INCLUSIVE,
-                RANDOM_NUMBER_END_INCLUSIVE);
-        NumberComparable numberComparable = new IntegerComparable();
-        MovingStrategy movingStrategy = new RacingCarMovingStrategy(randomNumberGenerator, numberComparable,
-                FORWARD_MIN_INCLUSIVE);
-        StringRepeater stringRepeater = new StringRepeater(HYPHEN);
-        Formatter formatter = new Formatter(stringRepeater);
-
-        return new RacingCarController(inputView, outputView, splitter, movingStrategy,
-                formatter);
     }
 }

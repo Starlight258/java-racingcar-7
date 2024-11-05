@@ -34,15 +34,15 @@ public class Positions {
                 .toList();
     }
 
+    public Position at(final int index) {
+        return positions.get(index);
+    }
+
     private long findMaxPosition() {
         return positions.stream()
                 .mapToLong(Position::getPosition)
                 .max()
                 .orElseThrow(() -> new IllegalStateException("참여자가 없습니다."));
-    }
-
-    private Position at(final int index) {
-        return positions.get(index);
     }
 
     public List<Long> values() {

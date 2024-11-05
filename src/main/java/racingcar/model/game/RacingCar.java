@@ -1,13 +1,13 @@
 package racingcar.model.game;
 
-import java.util.List;
 import java.util.stream.Collectors;
 import racingcar.model.car.Car;
 import racingcar.model.car.Cars;
 import racingcar.model.car.Name;
-import racingcar.model.game.round.Round;
 import racingcar.model.game.position.History;
 import racingcar.model.game.position.Positions;
+import racingcar.model.game.round.Round;
+import racingcar.model.game.strategy.MovingStrategy;
 
 public class RacingCar {
 
@@ -15,18 +15,20 @@ public class RacingCar {
     private final Positions positions;
     private final History history;
     private final Round round;
+    private final MovingStrategy movingStrategy;
 
-    public RacingCar(final Cars cars, final Round round) {
+    public RacingCar(final Cars cars, final Round round, final MovingStrategy movingStrategy) {
         this.cars = cars;
         this.positions = Positions.initialize(cars.size());
         this.history = new History();
         this.round = round;
+        this.movingStrategy = movingStrategy;
     }
 
     public void start() {
         for (int currentRound = 0; currentRound < round.getRound(); currentRound++) {
-            List<Boolean> moves = cars.doMove();
-            moveWithPositions(moves);
+            moveAllCars();
+            history.add(positions);
         }
     }
 
@@ -39,13 +41,12 @@ public class RacingCar {
                 .collect(Collectors.joining(", "));
     }
 
-    private void moveWithPositions(final List<Boolean> moves) {
-        for (int j = 0; j < cars.size(); j++) {
-            if (moves.get(j)) {
-                positions.increase(j);
+    private void moveAllCars() {
+        for (int i = 0; i < cars.size(); i++) {
+            if (movingStrategy.canMove()) {
+                positions.increase(i);
             }
         }
-        history.add(positions);
     }
 
     public Cars getCars() {
@@ -54,5 +55,9 @@ public class RacingCar {
 
     public History getHistory() {
         return history;
+    }
+
+    public Round getRound() {
+        return round;
     }
 }

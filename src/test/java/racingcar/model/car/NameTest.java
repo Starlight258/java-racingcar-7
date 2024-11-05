@@ -46,8 +46,8 @@ class NameTest {
         @ParameterizedTest
         @NullAndEmptySource
         @ValueSource(strings = " ")
-        @DisplayName("빈 문자열이면 예외가 발생한다")
-        void 실패_이름생성_빈값(String name) {
+        @DisplayName("null이거나 empty, blank이면 예외가 발생한다")
+        void 실패_이름생성_null또는empty또는blank(String name) {
             // Given
 
             // When & Then
